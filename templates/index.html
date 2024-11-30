@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dijkstra App</title>
+</head>
+<body>
+    <h1>Algoritmo de Dijkstra</h1>
+    <form id="dijkstraForm">
+        <label for="graph">Grafo (JSON):</label><br>
+        <textarea id="graph" rows="10" cols="50">{ "A": {"B": 1, "C": 4}, "B": {"C": 2, "D": 6}, "C": {"D": 3}, "D": {} }</textarea><br><br>
+        <label for="start">Nó Inicial:</label><br>
+        <input type="text" id="start" value="A"><br><br>
+        <button type="button" onclick="calculate()">Calcular</button>
+    </form>
+    <h2>Resultado:</h2>
+    <pre id="result"></pre>
+    <script>
+        function calculate() {
+            const graph = JSON.parse(document.getElementById('graph').value);
+            const start = document.getElementById('start').value;
+
+            fetch('/calculate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ graph, start })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerText += JSON.stringify(data, null, 2);
+            });
+        }
+    </script>
+</body>
+</html>
